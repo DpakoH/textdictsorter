@@ -89,8 +89,22 @@ public class TextDictionarySorter {
 
     public static void main(String[] args) {
         TextDictionarySorter sorter = new TextDictionarySorter();
+        long totalMemory = Runtime.getRuntime().totalMemory();
+        long freeMemory = Runtime.getRuntime().freeMemory();
+        System.out.println("Memory total: " + totalMemory + " used:" + (totalMemory - freeMemory));
         SortedMap<String, Pair<Long, Integer>> sortedMap = sorter.readFile("test.file");
+        totalMemory = Runtime.getRuntime().totalMemory();
+        freeMemory = Runtime.getRuntime().freeMemory();
+        System.out.println("Memory total: " + totalMemory + " used:" + (totalMemory - freeMemory));
         sorter.writeSortedFile("test.file", "out.file", sortedMap);
+        totalMemory = Runtime.getRuntime().totalMemory();
+        freeMemory = Runtime.getRuntime().freeMemory();
+        System.out.println("Memory total: " + totalMemory + " used:" + (totalMemory - freeMemory));
+
+        // On ~6GiB file with 100M lines where the keys were ~3GiB
+        //Memory total: 1065353216 used:15403544
+        //Memory total: 16768827392 used:16223440368
+        //Memory total: 16768827392 used:16671160688 // ~16GiB RESident Java memory was used
     }
 
 }
